@@ -3,10 +3,10 @@ import prisma from "@/prisma/client";
 import { data } from "autoprefixer";
 import { title } from "process";
 import { describe } from "node:test";
-import { createIssueSchema } from "../../validationSchemas";
+import { IssueSchema } from "../../validationSchemas";
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const validation = createIssueSchema.safeParse(body);
+  const validation = IssueSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
 
