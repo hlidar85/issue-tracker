@@ -4,7 +4,11 @@ import { data } from "autoprefixer";
 import { title } from "process";
 import { describe } from "node:test";
 import { IssueSchema } from "../../validationSchemas";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/autOptions";
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
   const body = await request.json();
   const validation = IssueSchema.safeParse(body);
   if (!validation.success)
