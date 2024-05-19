@@ -1,16 +1,28 @@
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import { IssueStatusBadge, Link } from "@/app/components";
+import NextLin from "next/link";
 import IssueActions from "./IssueActions";
+import { Issue } from "@prisma/client";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
 
 const IssuesPage = async ({
   searchParams,
 }: {
-  searchParams: { status: string };
+  searchParams: { status: string; orderBy: keyof Issue };
 }) => {
   const issues = await prisma.issue.findMany({
     where: { statusId: searchParams.status },
   });
+  const columns: {
+    label: string;
+    value: keyof Issue;
+    className?: string;
+  }[] = [
+    { label: "Issue", value: "title" },
+    { label: "Status", value: "statusId", className: "hidden md:table-cell" },
+    { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
+  ];
 
   return (
     <div>
@@ -18,13 +30,18 @@ const IssuesPage = async ({
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
+            {columns.map((column) => (
+              <Table.ColumnHeaderCell key={column.value}>
+                <NextLin
+                  href={{ query: { ...searchParams, orderBy: column.value } }}
+                >
+                  {column.label}
+                </NextLin>
+                {column.value === searchParams.orderBy && (
+                  <ArrowUpIcon className="inline" />
+                )}
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
