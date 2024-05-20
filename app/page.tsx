@@ -5,6 +5,7 @@ import IssueSummary from "./issues/IssueSummary";
 import prisma from "@/prisma/client";
 import IssueChart from "./IssueChart";
 import { Flex, Grid } from "@radix-ui/themes";
+import { Metadata } from "next";
 
 export default async function Home({
   searchParams,
@@ -20,9 +21,14 @@ export default async function Home({
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
       <Flex direction="column" gap="5">
         <IssueSummary open={open} inProgress={inprogress} closed={closed} />
-        <IssueChart open={open} inProgress={inprogress} closed={closed} />;
+        <IssueChart open={open} inProgress={inprogress} closed={closed} />
       </Flex>
       <LatestIssues />
     </Grid>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Dashboard",
+  description: "View a summary of project issues",
+};
