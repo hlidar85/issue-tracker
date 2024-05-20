@@ -1,5 +1,4 @@
 "use client";
-
 import { Skeleton } from "@/app/components";
 import Link from "next/link";
 import React from "react";
