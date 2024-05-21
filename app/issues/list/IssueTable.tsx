@@ -21,7 +21,6 @@ interface Props {
 const IssueTable = ({ searchParams, issues }: Props) => {
   const order = searchParams.order === "asc" ? "desc" : "asc";
 
-  console.log(order);
   return (
     <Table.Root variant="surface">
       <Table.Header>
