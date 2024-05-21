@@ -1,14 +1,14 @@
 import prisma from "@/prisma/client";
 
 import Pagination from "@/app/components/Pagination";
-import IssueActions from "./IssueActions";
-import IssueTable, { IssueQuery, columnNames } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
+import IssueActions from "./IssueActions";
+import IssueTable, { IssueQuery, columnNames } from "./IssueTable";
 
 const IssuesPage = async ({ searchParams }: { searchParams: IssueQuery }) => {
   const orderBy = columnNames.includes(searchParams.orderBy)
-    ? { [searchParams.orderBy]: "asc" }
+    ? { [searchParams.orderBy]: searchParams.order }
     : undefined;
   const where = { statusId: searchParams.status };
 
