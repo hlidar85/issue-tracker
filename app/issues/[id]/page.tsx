@@ -17,13 +17,14 @@ const fetchUser = cache((issueId: number) =>
   prisma.issue.findUnique({ where: { id: issueId } })
 );
 const IssueDetailPage = async ({ params }: Props) => {
+  const statuses = await prisma.status.findMany();
   const session = await getServerSession(authOptions);
   const issue = await fetchUser(parseInt(params.id));
   if (!issue) notFound();
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
-        <IssueDetails issue={issue} />
+        <IssueDetails issue={issue} statuses={statuses} />
       </Box>
       {session && (
         <Box>

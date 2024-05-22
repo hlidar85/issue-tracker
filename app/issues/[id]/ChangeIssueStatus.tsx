@@ -1,14 +1,12 @@
 "use client";
 import { IssueStatusBadge } from "@/app/components";
-import prisma from "@/prisma/client";
 import { Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { data } from "autoprefixer";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
-export const ChangeIssueStatus = async ({
+export const ChangeIssueStatus = ({
   status,
   statuses,
   issueId,

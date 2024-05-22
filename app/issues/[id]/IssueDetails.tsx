@@ -1,11 +1,17 @@
-import { Issue } from "@prisma/client";
+"use client";
+import { Issue, Status } from "@prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
 import { ChangeIssueStatus } from "./ChangeIssueStatus";
 import prisma from "@/prisma/client";
 
-const IssueDetails = async ({ issue }: { issue: Issue }) => {
-  const statuses = await prisma.status.findMany();
+const IssueDetails = ({
+  issue,
+  statuses,
+}: {
+  issue: Issue;
+  statuses: Status[];
+}) => {
   return (
     <>
       <Heading>{issue.title}</Heading>

@@ -1,8 +1,12 @@
 import { IssueStatusBadge } from "@/app/components";
 import { Issue, Prisma } from "@prisma/client";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
-import { Avatar, Table } from "@radix-ui/themes";
+import { Avatar, HoverCard, Table } from "@radix-ui/themes";
 import { default as Link, default as NextLin } from "next/link";
+import IssueDetailPage from "../[id]/page";
+import IssueDetails from "../[id]/IssueDetails";
+import prisma from "@/prisma/client";
+import HoverCardIssues from "./HoverCardIssues";
 
 export interface IssueQuery {
   status: string;
@@ -20,8 +24,9 @@ interface Props {
   issues: IssueWhitUser[];
 }
 
-const IssueTable = ({ searchParams, issues }: Props) => {
+const IssueTable = async ({ searchParams, issues }: Props) => {
   const order = searchParams.order === "asc" ? "desc" : "asc";
+  const statuses = await prisma.status.findMany();
 
   return (
     <Table.Root variant="surface">
@@ -63,8 +68,7 @@ const IssueTable = ({ searchParams, issues }: Props) => {
         {issues.map((issue) => (
           <Table.Row key={issue.id}>
             <Table.Cell>
-              <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-
+              <HoverCardIssues issue={issue} statuses={statuses} />
               <div className="block md:hidden">
                 <IssueStatusBadge status={issue.statusId} />
               </div>
