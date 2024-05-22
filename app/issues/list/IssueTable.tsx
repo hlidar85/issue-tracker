@@ -35,7 +35,11 @@ const IssueTable = ({ searchParams, issues }: Props) => {
                   query: {
                     ...searchParams,
                     orderBy: column.value,
-                    order: order,
+                    order:
+                      searchParams.order === "asc" &&
+                      searchParams.orderBy === column.value
+                        ? "desc"
+                        : "asc",
                   },
                 }}
               >
