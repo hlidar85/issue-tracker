@@ -1,10 +1,8 @@
 import { IssueStatusBadge } from "@/app/components";
+import { Issue, Prisma } from "@prisma/client";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
-import { Table } from "@radix-ui/themes";
-import Link from "next/link";
-import React from "react";
-import NextLin from "next/link";
-import { Issue } from "@prisma/client";
+import { Avatar, Table } from "@radix-ui/themes";
+import { default as Link, default as NextLin } from "next/link";
 
 export interface IssueQuery {
   status: string;
@@ -13,9 +11,13 @@ export interface IssueQuery {
   page: string;
 }
 
+type IssueWhitUser = Prisma.IssueGetPayload<{
+  include: { assignedToUser: true };
+}>;
+
 interface Props {
   searchParams: IssueQuery;
-  issues: Issue[];
+  issues: IssueWhitUser[];
 }
 
 const IssueTable = ({ searchParams, issues }: Props) => {
@@ -73,6 +75,19 @@ const IssueTable = ({ searchParams, issues }: Props) => {
             <Table.Cell className="hidden md:table-cell">
               {issue.createdAt.toDateString()}
             </Table.Cell>
+            <Table.Cell className="hidden md:table-cell">
+              {issue.assignedToUser?.name}
+              {issue.assignedToUser && (
+                <Avatar
+                  ml="3"
+                  src={issue.assignedToUser.image!}
+                  fallback="?"
+                  size="2"
+                  radius="full"
+                  referrerPolicy="no-referrer"
+                />
+              )}
+            </Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
@@ -88,6 +103,11 @@ const columns: {
   { label: "Issue", value: "title" },
   { label: "Status", value: "statusId", className: "hidden md:table-cell" },
   { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
+  {
+    label: "Assigned to",
+    value: "assignedToUserId",
+    className: "hidden md:table-cell",
+  },
 ];
 export const columnNames = columns.map((column) => column.value);
 export default IssueTable;

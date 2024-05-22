@@ -82,7 +82,7 @@ const AuthStatus = () => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Label>
-            <Text size="2">{session!.user?.email}</Text>
+            <Text size="2">{session!.user?.email || "unknown email"}</Text>
           </DropdownMenu.Label>
           <DropdownMenu.Item>
             <Link href="/api/auth/signout">Log out</Link>
