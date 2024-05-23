@@ -1,10 +1,7 @@
-"use client";
-
+import { Issue, Status } from "@prisma/client";
 import { HoverCard } from "@radix-ui/themes";
 import Link from "next/link";
-import React from "react";
-import IssueDetails from "../[id]/IssueDetails";
-import { Issue, Status } from "@prisma/client";
+import IssueDetailPage from "../[id]/page";
 
 const HoverCardIssues = ({
   issue,
@@ -18,8 +15,8 @@ const HoverCardIssues = ({
       <HoverCard.Trigger>
         <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
       </HoverCard.Trigger>
-      <HoverCard.Content>
-        <IssueDetails issue={issue} statuses={statuses} />
+      <HoverCard.Content maxWidth="800px">
+        <IssueDetailPage params={{ id: issue.id.toString() }} />
       </HoverCard.Content>
     </HoverCard.Root>
   );

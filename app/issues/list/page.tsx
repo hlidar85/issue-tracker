@@ -4,8 +4,7 @@ import Pagination from "@/app/components/Pagination";
 import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 import IssueActions from "./IssueActions";
-import { IssueQuery, columnNames } from "./IssueTable";
-import IssueTable from "./IssueTable";
+import IssueTable, { IssueQuery, columnNames } from "./IssueTable";
 
 const IssuesPage = async ({ searchParams }: { searchParams: IssueQuery }) => {
   const orderBy = columnNames.includes(searchParams.orderBy)
